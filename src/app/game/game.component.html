@@ -1,0 +1,11 @@
+<div class="field">
+
+    <div class="card-stack">
+        <!-- for-schleife in Angular für HTML code. 6 Karten werden angezeigt mit einerversetzung von jeweils 5px (1*5) -->
+        <img [ngStyle]="{'right.px': i *5}" *ngFor="let c of [0,1,2,3,4,]; let i = index;" src="../../assets/img/cards/card_cover.png" alt="">
+
+        <!-- Die oberste Karte soll animiert werden somit muss sie extra liegen -->
+        <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" class="top-card" style="right:25px" src="../../assets/img/cards/card_cover.png" alt="">
+
+    </div>
+</div>
