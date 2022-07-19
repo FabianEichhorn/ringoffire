@@ -1,11 +1,13 @@
 export class Game {
-    public players: string[] = [];
+    public players: string[] = ['Hans', 'Peter', 'Freddy'];
     public stack: string[] = [];
-    public playedCard: string[] = [];
+    public playedCards: string[] = [];
     public currentPlayer: number = 0;
+    public currentCard: any = '';
+
 
     constructor() { // wird immer zuerst ausgeführt 
-        for(let i=0; i<14; i++) { // durch die For-schleifen werden alle Karten in die Game variable in das Array Stack gegeben
+        for(let i=1; i<14; i++) { // durch die For-schleifen werden alle Karten in die Game variable in das Array Stack gegeben
           this.stack.push('ace_' + i);
           this.stack.push('clubs_' + i);
           this.stack.push('diamonds_' + i);
