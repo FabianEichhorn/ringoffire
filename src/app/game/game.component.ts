@@ -10,7 +10,7 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
-  currentCard: any = '' ;
+  currentCard: string = '' ;
   game!: Game;
 
   constructor(
@@ -31,8 +31,10 @@ export class GameComponent implements OnInit {
     if (!this.pickCardAnimation) {
     this.game.currentCard = this.game.stack.pop(); //mit pop nehmen wir den letzten wert aus unserem Array und wird gleichzeitig aus dem array entfernt
     this.pickCardAnimation = true;
-    console.log('New Card:', this.currentCard)
+    console.log('New Card:', this.game.currentCard)
     console.log('Game is', this.game)
+    this.game.currentPlayer ++;
+    this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
 
     setTimeout (() => {
       this.game.playedCards.push(this.game.currentCard);

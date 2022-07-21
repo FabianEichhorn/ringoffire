@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { TitleStrategy } from '@angular/router';
 
 @Component({
   selector: 'app-game-info',
@@ -25,7 +24,7 @@ export class GameInfoComponent implements OnInit, OnChanges {
 
   title = '';
   description = '';
-  @Input() card: any;
+  @Input() card: string;
 
   constructor() { }
 
