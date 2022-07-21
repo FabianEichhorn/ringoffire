@@ -1,5 +1,5 @@
 export class Game {
-    public players: string[] = ['Hans', 'Peter', 'Freddy'];
+    public players: string[] = [];
     public stack: string[] = [];
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
@@ -36,8 +36,5 @@ function shuffle(array:any) { //mischt die Karten (stackoverflow)
     return array;
   }
   
-  // Used like so
-  var arr = [2, 11, 37, 42];
-  shuffle(arr);
-  console.log(arr);
+ 
   
