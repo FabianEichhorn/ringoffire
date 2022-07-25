@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -12,19 +14,44 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string = '' ;
   game!: Game;
+  gameId: string;
 
   constructor(
     public dialog: MatDialog,
+    private firestore: AngularFirestore,
+    private router: ActivatedRoute,
     ) { }
 
   ngOnInit(): void {
-    this.newGame();
+   this.newGame(); 
+    this.router.params.subscribe((params) => {
+      this.gameId = params['id'];
+    console.log(params['id']);
+
+    this.firestore
+        .collection('games')
+        .doc(params['id'])
+        .valueChanges()
+        .subscribe((game:any) => {
+          console.log('Game update', game);
+          this.game.currentPlayer = game.currentPlayer;
+          this.game.playedCards = game.playedCards;
+          this.game.players = game.players;
+          this.game.stack = game.stack;
+        });
+      
+  })
+
+      
+   
   }
 
 
   newGame() {
     this.game = new Game();
-    console.log(this.game)
+/*     this.firestore
+      .collection('games')
+      .add(this.game.toJson()); */
   }
 
   takeCard() {
