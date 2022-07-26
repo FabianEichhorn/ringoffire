@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PlayerMobileComponent implements OnInit {
 
   @Input() name: string;
+  @Input() image = 'avatar-gcbe2e4d30_1280.png';
   @Input() playerActive: boolean = false;
 
   constructor() { }

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 @Component({
   selector: 'app-game',
@@ -39,6 +40,7 @@ export class GameComponent implements OnInit {
           this.game.stack = game.stack;
           this.game.currentCard = game.currentCard;
           this.game.pickCardAnimation = game.pickCardAnimation;
+          this.game.player_images = game.player_images;
         });
       
   })
@@ -79,6 +81,7 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe(name => {
       if(name && name.length > 0) {
       this.game.players.push(name);
+      this.game.player_images.push('avatar-g2a332f472_1280.png');
       this.saveGame();
       }
     });
@@ -93,7 +96,16 @@ export class GameComponent implements OnInit {
   }
 
 
+  editPlayer(playerId: number) {
+    console.log('edit Player', playerId);
+    const dialogRef = this.dialog.open(EditPlayerComponent);
 
+    dialogRef.afterClosed().subscribe(change => {
+      console.log('Received Changes', change);
+      this.game.player_images[playerId] = change;
+      this.saveGame();
+    });
+  }
 
 
 }
