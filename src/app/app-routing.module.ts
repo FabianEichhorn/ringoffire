@@ -5,7 +5,7 @@ import { StartScreenComponent } from './start-screen/start-screen.component';
 
 const routes: Routes = [
   { path: '', component: StartScreenComponent},
-  {path: 'game/:id', component: GameComponent }, // : sagt dass nach diesem Game und / eine Id kommt die eine Variable ist (diese Route verfügt über eine Variable)
+  { path: 'game/:id', component: GameComponent }, // : sagt dass nach diesem Game und / eine Id kommt die eine Variable ist (diese Route verfügt über eine Variable)
 ];
 
 @NgModule({

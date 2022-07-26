@@ -1,5 +1,9 @@
-<app-player *ngFor="let player of game.players; let i = index " style="top: 130px" class="player-position" [ngStyle]="{'top.px': 100+(i*90)}" [playerActive]="i ==  game.currentPlayer" [name]="player">
+<app-player *ngFor="let player of game.players; let i = index " style="top: 130px" class="player-position hide-mobile" [ngStyle]="{'top.px': 100+(i*90)}" [playerActive]="i ==  game.currentPlayer" [name]="player">
 </app-player>
+<div class="scroll-container hide-desktop">
+    <app-player-mobile *ngFor="let player of game.players; let i = index " style="top: 130px" [ngStyle]="{'left.px': 10+(i*90), 'top.px':0}" [playerActive]="i ==  game.currentPlayer" [name]="player">
+    </app-player-mobile>
+</div>
 
 
 <div class="field">
@@ -15,7 +19,7 @@
         <img *ngFor="let card of game.playedCards" class="played-card" src="../../assets/img/cards/{{ card }}.png" alt="">
 
         <!-- Current card animation -->
-        <img (click)="takeCard()" *ngIf="pickCardAnimation" class=" pick-card" style="right:25px" src="../../assets/img/cards/{{ game.currentCard }}.png" alt="">
+        <img (click)="takeCard()" *ngIf="game.pickCardAnimation" class=" pick-card" style="right:25px" src="../../assets/img/cards/{{ game.currentCard }}.png" alt="">
 
 
 
