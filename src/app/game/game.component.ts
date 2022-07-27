@@ -15,6 +15,7 @@ export class GameComponent implements OnInit {
 
   game!: Game;
   gameId: string;
+  gameOver = false;
 
   constructor(
     public dialog: MatDialog,
@@ -56,33 +57,45 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.game.pickCardAnimation) {
-    this.game.currentCard = this.game.stack.pop(); //mit pop nehmen wir den letzten wert aus unserem Array und wird gleichzeitig aus dem array entfernt
-    this.game.pickCardAnimation = true;
-    console.log('New Card:', this.game.currentCard)
-    console.log('Game is', this.game)
-    this.game.currentPlayer ++;
-    this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+    if (this.game.stack.length == 0) {
+      this.gameOver = true;
+    } else  if (this.game.players.length > 1) {
+      if (!this.game.pickCardAnimation) {
+      this.pickCardAction();
 
-    this.saveGame();
-
-    setTimeout (() => {
-      this.game.playedCards.push(this.game.currentCard);
-      this.game.pickCardAnimation = false;
-      this.saveGame();
-    }, 1000)
+      setTimeout (() => {
+        this.game.playedCards.push(this.game.currentCard);
+        this.game.pickCardAnimation = false;
+        this.saveGame();
+      }, 1000);
+  } 
+    } else {
+      alert('Alone drinking is not fun, add at least 2 players!')
     }
+  }
+
+
+  pickCardAction() {
+    this.game.currentCard = this.game.stack.pop(); //mit pop nehmen wir den letzten wert aus unserem Array und wird gleichzeitig aus dem array entfernt
+      this.game.pickCardAnimation = true;
+      console.log('New Card:', this.game.currentCard)
+      console.log('Game is', this.game)
+      this.game.currentPlayer ++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.saveGame();
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
       
 
-    dialogRef.afterClosed().subscribe(name => {
-      if(name && name.length > 0) {
+    dialogRef.afterClosed().subscribe( (name) => {
+      if(name && name.length > 0 && name.length < 16) {
       this.game.players.push(name);
       this.game.player_images.push('avatar-g2a332f472_1280.png');
       this.saveGame();
+      }else  {
+        alert('Player name must be between 1 and 16 characters');
       }
     });
   }
@@ -101,9 +114,16 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPlayerComponent);
 
     dialogRef.afterClosed().subscribe(change => {
-      console.log('Received Changes', change);
-      this.game.player_images[playerId] = change;
-      this.saveGame();
+      if (change) {
+        if(change == 'DELETE') {
+          this.game.players.splice(playerId, 1)
+          this.game.player_images.splice(playerId, 1)
+        } else {
+          console.log('Received Changes', change);
+          this.game.player_images[playerId] = change;
+        }
+        this.saveGame();
+      }
     });
   }
 
